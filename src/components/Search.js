@@ -4,9 +4,7 @@ import GlobalApi from '../app/GlobalApi';
 import { useNavigate } from 'react-router-dom';
 
 const Search = () => {
-    const [searchInput, setSearchInput] = useState([]);
-    const [inputValue, setInputValue] = useState('');
-    const [open, setOpen] = useState(false); // Thêm trạng thái open
+    const [searchInput , setSearchInput] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,11 +30,6 @@ const Search = () => {
         }
     };
 
-    const handleInputChange = (event, value) => {
-        setInputValue(value);
-        setOpen(value.length > 0); // Mở thanh autocomplete khi có giá trị tìm kiếm
-    };
-
     return (
         <Stack 
             spacing={2} 
@@ -51,9 +44,7 @@ const Search = () => {
                 id="free-solo-2-demo"
                 disableClearable
                 options={searchInput.map((option) => option.title)}
-                onChange={handleSelect}
-                open={open} // Thêm thuộc tính open để kiểm soát việc hiển thị
-                onInputChange={handleInputChange} // Xử lý thay đổi input
+                onChange={handleSelect} // Thêm onChange để xử lý chọn phim
                 renderInput={(params) => (
                     <TextField
                         {...params}
