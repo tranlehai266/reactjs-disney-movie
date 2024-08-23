@@ -36,7 +36,7 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   let navigate = useNavigate();
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
   const auth = useAuth()
 
   const handleOpenNavMenu = (event) => {
@@ -104,7 +104,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            <img src={imgLogo} style={{width:'100px'}}></img>
+            <img src={imgLogo} alt='img-logo' style={{width:'100px'}}></img>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
