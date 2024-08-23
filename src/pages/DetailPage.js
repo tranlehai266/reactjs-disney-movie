@@ -6,7 +6,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 
 function DetailPage() {
-    const { id } = useParams();  // Đổi từ detailId sang id cho đồng nhất với đường dẫn
+    const { id } = useParams();  
     const [movieDetails, setMovieDetails] = useState(null);
 
     useEffect(() => {
@@ -15,7 +15,7 @@ function DetailPage() {
 
     const detailResponse = async () => {
         try {
-            const response = await GlobalApi.getMovieDetails(id);  // Sử dụng đúng API để lấy chi tiết phim
+            const response = await GlobalApi.getMovieDetails(id); 
             console.log(response.data);
             setMovieDetails(response.data);
         } catch (error) {
