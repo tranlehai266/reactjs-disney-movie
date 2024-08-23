@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import GlobalApi from '../app/GlobalApi';
 import { useParams } from 'react-router-dom';
 import { Box, Chip, Typography } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
-
 function DetailPage() {
     const { id } = useParams();  
     const [movieDetails, setMovieDetails] = useState(null);
 
-    useEffect(() => {
-        detailResponse();
-    }, [id]);
-
-    const detailResponse = async () => {
+    const detailResponse = useCallback(async () => {
         try {
             const response = await GlobalApi.getMovieDetails(id); 
             console.log(response.data);
@@ -21,7 +16,11 @@ function DetailPage() {
         } catch (error) {
             console.log(error);
         }
-    };
+    }, [id]);
+
+    useEffect(() => {
+        detailResponse();
+    }, [detailResponse]);
 
     if (!movieDetails) return <div>Loading...</div>;
 
@@ -110,7 +109,6 @@ function DetailPage() {
                 key={genre.id}
                 label={genre.name}
                 sx={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
                   color: '#fff',
                   marginRight:"20px",
                   backgroundColor:"#676D77",
@@ -122,7 +120,6 @@ function DetailPage() {
           </Box>
         </Box>
       );
-    
 }
 
 export default DetailPage;
