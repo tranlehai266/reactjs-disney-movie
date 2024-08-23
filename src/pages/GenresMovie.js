@@ -13,7 +13,7 @@ function GenresMovie({genresID}) {
 
     useEffect(()=>{
         getGenresMovie()
-    },[genresID])
+    },[])
 
     const getGenresMovie = async () => {
         try {
