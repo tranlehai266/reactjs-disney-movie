@@ -18,7 +18,7 @@ function GenreMoviesPage() {
 
     useEffect(() => {
         getMoviesByGenre();
-    }, []);  
+    }, [genreId]);  
 
     const getMoviesByGenre = async () => {
         try {

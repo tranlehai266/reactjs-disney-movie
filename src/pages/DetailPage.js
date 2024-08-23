@@ -11,7 +11,7 @@ function DetailPage() {
 
     useEffect(() => {
         detailResponse();
-    }, []);
+    }, [id]);
 
     const detailResponse = async () => {
         try {
