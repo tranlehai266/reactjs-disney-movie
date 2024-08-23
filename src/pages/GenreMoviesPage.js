@@ -11,15 +11,6 @@ function GenreMoviesPage() {
     const [genreName, setGenreName] = useState('');
     const navigate = useNavigate()
 
-
-    const handleDetail = (id) => {
-        navigate(`/detail/${id}`)
-    }
-
-    useEffect(() => {
-        getMoviesByGenre()
-    }, []);  
-
     const getMoviesByGenre = async () => {
         try {
             // Lấy danh sách phim theo thể loại
@@ -39,6 +30,14 @@ function GenreMoviesPage() {
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        getMoviesByGenre();
+    }, [getMoviesByGenre, genreId]); 
+
+    const handleDetail = (id) => {
+        navigate(`/detail/${id}`)
+    }
 
     return (
         <Box sx={{ padding: "20px", marginLeft: "50px" }}>
