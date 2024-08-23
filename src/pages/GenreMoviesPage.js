@@ -4,40 +4,36 @@ import { useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-
 function GenreMoviesPage() {
     const { genreId } = useParams();  
     const [movies, setMovies] = useState([]);
     const [genreName, setGenreName] = useState('');
     const navigate = useNavigate()
 
-    const getMoviesByGenre = async () => {
-        try {
-            // Lấy danh sách phim theo thể loại
-            const movieResponse = await GlobalApi.getMovies(genreId);
-            console.log(movieResponse.data.results);
-            setMovies(movieResponse.data.results);
-
-            // Lấy danh sách tất cả các thể loại
-            const genreResponse = await GlobalApi.getListVideos();
-            const genres = genreResponse.data.genres;
-
-            // Tìm tên thể loại dựa trên genreId
-            const genre = genres.find(g => g.id === parseInt(genreId));
-            setGenreName(genre ? genre.name : 'Unknown Genre');
-
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        getMoviesByGenre();
-    }, [getMoviesByGenre, genreId]); 
-
     const handleDetail = (id) => {
         navigate(`/detail/${id}`)
     }
+
+    useEffect(() => {
+        const getMoviesByGenre = async () => {
+            try {
+                const movieResponse = await GlobalApi.getMovies(genreId);
+                console.log(movieResponse.data.results);
+                setMovies(movieResponse.data.results);
+
+                const genreResponse = await GlobalApi.getListVideos();
+                const genres = genreResponse.data.genres;
+
+                const genre = genres.find(g => g.id === parseInt(genreId));
+                setGenreName(genre ? genre.name : 'Unknown Genre');
+
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        getMoviesByGenre();
+    }, [genreId]);  // Chỉ cần genreId trong dependencies
 
     return (
         <Box sx={{ padding: "20px", marginLeft: "50px" }}>
