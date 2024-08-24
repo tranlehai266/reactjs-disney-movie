@@ -6,32 +6,29 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const Search = () => {
     const [searchInput , setSearchInput] = useState('');
-    const [ querySearch , setQuerySearch] = useState('')
+    const [querySearch , setQuerySearch] = useState('');
     
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(querySearch){
-            getSearch()
+        if (querySearch) {
+            const getSearch = async () => {
+                try {
+                    const response = await GlobalApi.getSearchMovies(querySearch); 
+                    console.log("search", response.data);
+                } catch (error) {
+                    console.log(error);
+                }
+            };
+            getSearch();
         }
-    }, [querySearch]);
-
-    const getSearch = async () => {
-        try {
-            const response = await GlobalApi.getSearchMovies(querySearch); 
-            console.log("search", response.data);
-            
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    }, [querySearch]); 
 
     const handleSearch = () => {
-        setQuerySearch(searchInput)
-        navigate(`/search-flim/${searchInput}`)
-    }
+        setQuerySearch(searchInput);
+        navigate(`/search-flim/${searchInput}`);
+    };
     
-
     return (
         <Stack 
             direction="row"
@@ -42,66 +39,66 @@ const Search = () => {
                 margin: '10px auto',
             }}
         >
-                    <TextField
-                        label="Search Flim Name"
-                        InputProps={{
-                            type: 'search',               
-                        }}
-                        value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
-                        sx={{
-                            '& .MuiOutlinedInput-root': {
-                                borderRadius: '20px',
-                                height: '48px',
-                                backgroundColor: 'transparent', 
-                                '& fieldset': {
-                                    borderColor: '#1E2456',
-                                },
-                                '&:hover fieldset': {
-                                    borderColor: '#1E2456',
-                                },
-                                '&.Mui-focused fieldset': {
-                                    borderColor: '#1E2456',
-                                },
-                            },
-                            '& .MuiInputLabel-root': {
-                                color: '#19CBBB', 
-                                top:"-5px"
-                            },
-                            '& .MuiInputLabel-shrink': {
-                                transform: 'translate(14px, -6px) scale(0.75)',
-                            },
-                            '& .MuiInputBase-input': {
-                                color: '#19CBBB', 
-                                fontWeight:"bold",
-                                padding: '0 14px',
-                                height: '48px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                '&::placeholder': {
-                                    color: '#fff', 
-                                    opacity: 1,
-                                },
-                            },
-                        }}
-                        
-                    />
-                    <Button
-                        variant="contained"
-                        onClick={handleSearch}
-                        sx={{
-                            backgroundColor: '#1E2456',
-                            color: '#fff',
-                            borderRadius: '20px',
-                            height: '48px',
-                            '&:hover': {
-                                backgroundColor: '#1E2456',
-                            }
-                        }}
-                        
-                    >
-                    <SearchIcon />
-                    </Button>     
+            <TextField
+                label="Search Film Name"
+                InputProps={{
+                    type: 'search',               
+                }}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                sx={{
+                    '& .MuiOutlinedInput-root': {
+                        borderRadius: '20px',
+                        height: '48px',
+                        backgroundColor: 'transparent', 
+                        '& fieldset': {
+                            borderColor: '#1E2456',
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#1E2456',
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#1E2456',
+                        },
+                    },
+                    '& .MuiInputLabel-root': {
+                        color: '#fff', 
+                        top:"-5px"
+                    },
+                    '& .MuiInputLabel-shrink': {
+                        transform: 'translate(14px, -6px) scale(0.75)',
+                    },
+                    '& .MuiInputBase-input': {
+                        color: '#19CBBB', 
+                        fontWeight:"bold",
+                        padding: '0 14px',
+                        height: '48px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        '&::placeholder': {
+                            color: '#fff', 
+                            opacity: 1,
+                        },
+                    },
+                }}
+                
+            />
+            <Button
+                variant="contained"
+                onClick={handleSearch}
+                sx={{
+                    backgroundColor: '#1E2456',
+                    color: '#fff',
+                    borderRadius: '20px',
+                    height: '48px',
+                    '&:hover': {
+                        backgroundColor: '#1E2456',
+                    }
+                }}
+                
+            >
+                <SearchIcon />
+            </Button>     
         </Stack>
     );
 };

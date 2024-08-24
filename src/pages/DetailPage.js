@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import GlobalApi from '../app/GlobalApi';
 import { useParams } from 'react-router-dom';
-import { Box, Chip, Typography, useTheme, useMediaQuery } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 function DetailPage() {
     const { id } = useParams();  
     const [movieDetails, setMovieDetails] = useState(null);
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
+ 
 
     const detailResponse = useCallback(async () => {
         try {
