@@ -8,6 +8,8 @@ import BlankLayout from "../layouts/BlankLayout";
 import GenreMoviesPage from "../pages/GenreMoviesPage";
 import DetailPage from "../pages/DetailPage";
 import DetailPageLayout from "../pages/DetailPageLayout";
+import Search from "../components/Search";
+import SearchResult from "../pages/SearchResult";
 
 function Router() {
   return (
@@ -20,10 +22,10 @@ function Router() {
           </AuthRequire>
         }
       >
-        
         <Route path="genre/:genreId" element={<GenreMoviesPage />} >
           <Route path="detail/:id" element={<DetailPage />}/>
         </Route>
+        <Route path="/search-flim/:searchInput" element={<SearchResult />} />
       </Route>
 
       <Route

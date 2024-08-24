@@ -1,37 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, Stack, Autocomplete } from '@mui/material';
+import { TextField, Stack, Button } from '@mui/material';
 import GlobalApi from '../app/GlobalApi';
 import { useNavigate } from 'react-router-dom';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Search = () => {
-    const [searchInput , setSearchInput] = useState([]);
+    const [searchInput , setSearchInput] = useState('');
+    const [ querySearch , setQuerySearch] = useState('')
+    
     const navigate = useNavigate();
 
     useEffect(() => {
-        getSearch();
-    }, []);
+        if(querySearch){
+            getSearch()
+        }
+    }, [querySearch]);
 
     const getSearch = async () => {
         try {
-            const response = await GlobalApi.getAllMovies(); 
+            const response = await GlobalApi.getSearchMovies(querySearch); 
             console.log("search", response.data);
-            setSearchInput(response.data.results);
+            
         } catch (error) {
             console.log(error);
         }
     };
 
-    const handleSelect = (event, value) => {
-        if (value) {
-            const selectedMovie = searchInput.find(movie => movie.title === value);
-            if (selectedMovie) {
-                navigate(`/detail/${selectedMovie.id}`); // Điều hướng đến trang chi tiết phim
-            }
-        }
-    };
+    const handleSearch = () => {
+        setQuerySearch(searchInput)
+        navigate(`/search-flim/${searchInput}`)
+    }
+    
 
     return (
         <Stack 
+            direction="row"
             spacing={2} 
             sx={{ 
                 width: '100%',
@@ -39,58 +42,66 @@ const Search = () => {
                 margin: '10px auto',
             }}
         >
-            <Autocomplete
-                freeSolo
-                id="free-solo-2-demo"
-                disableClearable
-                options={searchInput.map((option) => option.title)}
-                onChange={handleSelect} // Thêm onChange để xử lý chọn phim
-                renderInput={(params) => (
                     <TextField
-                        {...params}
-                        label="Search input"
+                        label="Search Flim Name"
                         InputProps={{
-                            ...params.InputProps,
-                            type: 'search',
+                            type: 'search',               
                         }}
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
                         sx={{
                             '& .MuiOutlinedInput-root': {
                                 borderRadius: '20px',
                                 height: '48px',
                                 backgroundColor: 'transparent', 
                                 '& fieldset': {
-                                    borderColor: '#173B60',
+                                    borderColor: '#1E2456',
                                 },
                                 '&:hover fieldset': {
-                                    borderColor: '#173B60',
+                                    borderColor: '#1E2456',
                                 },
                                 '&.Mui-focused fieldset': {
-                                    borderColor: '#173B60',
+                                    borderColor: '#1E2456',
                                 },
                             },
                             '& .MuiInputLabel-root': {
-                                color: '#173B60', 
-                                top: '-5px',
+                                color: '#19CBBB', 
+                                top:"-5px"
                             },
                             '& .MuiInputLabel-shrink': {
                                 transform: 'translate(14px, -6px) scale(0.75)',
                             },
                             '& .MuiInputBase-input': {
-                                color: '#173B60', 
+                                color: '#19CBBB', 
                                 fontWeight:"bold",
                                 padding: '0 14px',
                                 height: '48px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 '&::placeholder': {
-                                    color: '#173B60', 
+                                    color: '#fff', 
                                     opacity: 1,
                                 },
                             },
                         }}
+                        
                     />
-                )}
-            />
+                    <Button
+                        variant="contained"
+                        onClick={handleSearch}
+                        sx={{
+                            backgroundColor: '#1E2456',
+                            color: '#fff',
+                            borderRadius: '20px',
+                            height: '48px',
+                            '&:hover': {
+                                backgroundColor: '#1E2456',
+                            }
+                        }}
+                        
+                    >
+                    <SearchIcon />
+                    </Button>     
         </Stack>
     );
 };

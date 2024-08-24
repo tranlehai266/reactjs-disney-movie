@@ -1,12 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import GlobalApi from '../app/GlobalApi';
 import { useParams } from 'react-router-dom';
-import { Box, Chip, Typography } from '@mui/material';
+import { Box, Chip, Typography, useTheme, useMediaQuery } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 function DetailPage() {
     const { id } = useParams();  
     const [movieDetails, setMovieDetails] = useState(null);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
     const detailResponse = useCallback(async () => {
         try {
@@ -27,57 +30,59 @@ function DetailPage() {
     return (
         <Box
           sx={{
-            position:"relative", 
-            height:"100vh",
+            position: "relative", 
+            height: { xs: "auto", sm: "100vh" },
             borderRadius: 2,
-            overflow:"hidden"
+            overflow: "hidden",
+        
           }}
         >
-          <img
+          <Box
+            component="img"
             src={`https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}`}
             alt={movieDetails.title}
-            style={{
-              width:"100%",
-              height:"100%",
+            sx={{
+              width: "100%",
+              height: { xs: "300px", sm: "100%" },
+              objectFit: "cover",
             }}
           />
-
+          
           <Box 
             sx={{
-              position:'absolute',
-              top:"32%",
-              left:"5%"
+              position: { xs: 'static', sm: 'absolute' },
+              top: { sm: "32%" },
+              left: { sm: "5%" },
+              padding: { xs: 2, sm: 0 },
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: 2,
             }}
           >
             <button style={{
-              padding:"10px 20px",
-              textAlign:"center",
+              padding: "10px 20px",
+              textAlign: "center",
               backgroundColor: "#fff",  
               color: "#000",
               border: "none",  
               borderRadius: "5px",  
               fontSize: "16px",  
+              fontFamily:"monospace",
               cursor: "pointer",  
               display: "flex", 
+              fontWeight:"bold",
               alignItems: "center",  
               justifyContent: "center",  
               gap: "8px",  
               transition: "background-color 0.3s ease",   
+
             }}>
               <PlayArrowIcon />
               Play
             </button>
-          </Box>
-          <Box 
-            sx={{
-              position:'absolute',
-              top:"32%",
-              left:"12%"
-            }}
-          >
             <button style={{
-              padding:"10px 20px",
-              textAlign:"center",
+              padding: "10px 20px",
+              textAlign: "center",
               backgroundColor: "transparent",  
               color: "#fff",   
               border: "2px solid #fff", 
@@ -89,7 +94,7 @@ function DetailPage() {
               justifyContent: "center",  
               gap: "8px",  
               transition: "background-color 0.3s ease", 
-              
+              fontFamily:"monospace"
             }}>
               <PlayArrowIcon />
               Trailer
@@ -98,28 +103,43 @@ function DetailPage() {
 
           <Box
             sx={{
-              position: 'absolute',
-              top: "40%",
-              left: "5%",
-              gap: 2,
+              position: { xs: 'static', sm: 'absolute' },
+              top: { sm: "40%" },
+              left: { sm: "5%" },
+              padding: { xs: 2, sm: 0 },
+              backgroundColor: { xs: 'transparent', sm: 'transparent' },
             }}
           >
-            {movieDetails.genres.map((genre) => (
-              <Chip
-                key={genre.id}
-                label={genre.name}
-                sx={{
-                  color: '#fff',
-                  marginRight:"20px",
-                  backgroundColor:"#676D77",
-                  fontWeight:"bold"
-                }}
-              />
-            ))}
-            <Typography variant='h6' sx={{width:"450px", color:"#fff",marginTop:"15px",fontWeight:"bold" }}>{movieDetails.overview}</Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, marginBottom: 2 }}>
+              {movieDetails.genres.map((genre) => (
+                <Chip
+                  key={genre.id}
+                  label={genre.name}
+                  sx={{
+                    color: '#fff',
+                    backgroundColor: "#676D77",
+                    fontWeight: "bold"
+                  }}
+                />
+              ))}
+            </Box>
+            <Typography 
+              variant='h6' 
+              sx={{
+                color: "#fff",
+                fontWeight: "bold",
+                fontFamily:"monospace",
+                width: { xs: "100%", sm: "400px", md: "600px" },
+                
+                backdropFilter: "blur(1.5rem)"
+              }}
+            >
+              {movieDetails.overview}
+            </Typography>
           </Box>
-        </Box>
-      );
+          </Box>
+        
+    );
 }
 
 export default DetailPage;
