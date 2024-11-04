@@ -21,19 +21,16 @@ function Router() {
           </AuthRequire>
         }
       >
-        <Route path="genre/:genreId" element={<GenreMoviesPage />} >
-          <Route path="detail/:id" element={<DetailPage />}/>
+        <Route path="genre/:genreId" element={<GenreMoviesPage />}>
+          <Route path="detail/:id" element={<DetailPage />} />
         </Route>
         <Route path="/search-flim/:searchInput" element={<SearchResult />} />
       </Route>
 
-      <Route
-        path="detail/:id"
-        element={<DetailPageLayout />}
-      >
+      <Route path="detail/:id" element={<DetailPageLayout />}>
         <Route index element={<DetailPage />} />
       </Route>
-    
+
       <Route element={<BlankLayout />}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />
